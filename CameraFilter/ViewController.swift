@@ -82,7 +82,8 @@ class ViewController: UIViewController {
                 }
             }
             catch {
-                print("Could not set framerate")
+                print("Could not set active format")
+                print(error)
             }
         }
     }
