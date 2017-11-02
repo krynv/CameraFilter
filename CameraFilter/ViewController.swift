@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     var captureSession = AVCaptureSession()
     var backCamera: AVCaptureDevice?
@@ -17,23 +17,38 @@ class ViewController: UIViewController {
     var currentCamera: AVCaptureDevice?
     
     var photoOutput: AVCapturePhotoOutput?
+    var orientation: AVCaptureVideoOrientation = .portrait
     
-    var cameraPreviewLayer: AVCaptureVideoPreviewLayer?
+    let context = CIContext()
+    
+    @IBOutlet weak var filteredImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupCaptureSession()
         setupDevice()
         setupInputOutput()
-        setupCorrectFramerate(currentCamera: currentCamera!) // will default to 30fps unless stated otherwise
-        setupPreviewLayer()
-        startRunningCaptureSession()
     }
     
-    func setupCaptureSession() {
-        // should support anything up to 1920x1080 res, incl. 240fps @ 720p
-        captureSession.sessionPreset = AVCaptureSession.Preset.high
+    override func viewDidLayoutSubviews() {
+        orientation = AVCaptureVideoOrientation(rawValue: UIApplication.shared.statusBarOrientation.rawValue)!
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) != .authorized
+        {
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:
+                { (authorized) in
+                    DispatchQueue.main.async
+                        {
+                            if authorized
+                            {
+                                self.setupInputOutput()
+                            }
+                    }
+            })
+        }
     }
     
     func setupDevice() {
@@ -54,9 +69,19 @@ class ViewController: UIViewController {
     
     func setupInputOutput() {
         do {
+            setupCorrectFramerate(currentCamera: currentCamera!)
             let captureDeviceInput = try AVCaptureDeviceInput(device: currentCamera!)
-            captureSession.addInput(captureDeviceInput)
-            photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])], completionHandler: nil)
+            captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
+            if captureSession.canAddInput(captureDeviceInput) {
+                captureSession.addInput(captureDeviceInput)
+            }
+            let videoOutput = AVCaptureVideoDataOutput()
+            
+            videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "sample buffer delegate", attributes: []))
+            if captureSession.canAddOutput(videoOutput) {
+                captureSession.addOutput(videoOutput)
+            }
+            captureSession.startRunning()
         } catch {
             print(error)
         }
@@ -66,7 +91,7 @@ class ViewController: UIViewController {
         for vFormat in currentCamera.formats {
             //see available types
             //print("\(vFormat) \n")
-    
+            
             var ranges = vFormat.videoSupportedFrameRateRanges as [AVFrameRateRange]
             let frameRates = ranges[0]
             
@@ -88,28 +113,23 @@ class ViewController: UIViewController {
         }
     }
     
-    func setupPreviewLayer() {
-        cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-        cameraPreviewLayer?.connection?.videoOrientation = AVCaptureVideoOrientation.portrait
-        cameraPreviewLayer?.frame = self.view.frame
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        connection.videoOrientation = orientation
+        let videoOutput = AVCaptureVideoDataOutput()
+        videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.main)
         
-        //set preview in background, allows for elements to be placed in the foreground
-        self.view.layer.insertSublayer(cameraPreviewLayer!, at: 0)
+        let comicEffect = CIFilter(name: "CIComicEffect")
         
+        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)
+        
+        comicEffect!.setValue(cameraImage, forKey: kCIInputImageKey)
+        
+        let cgImage = self.context.createCGImage(comicEffect!.outputImage!, from: cameraImage.extent)!
+        
+        DispatchQueue.main.async {
+            let filteredImage = UIImage(cgImage: cgImage)
+            self.filteredImage.image = filteredImage
+        }
     }
-    
-    func startRunningCaptureSession() {
-        captureSession.startRunning()
-        backCamera?.unlockForConfiguration()
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
 }
-
