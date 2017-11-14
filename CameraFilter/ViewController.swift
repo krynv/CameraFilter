@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, UITabBarDelegate {
     
     var captureSession = AVCaptureSession()
     var backCamera: AVCaptureDevice?
@@ -23,8 +23,12 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     @IBOutlet weak var filteredImage: UIImageView!
     
+    @IBOutlet weak var tabBar: UITabBar!
+    @IBOutlet weak var moreButton: UITabBarItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tabBar.delegate = self
         
         setupDevice()
         setupInputOutput()
@@ -132,4 +136,41 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             self.filteredImage.image = filteredImage
         }
     }
+    
+    lazy var optionLauncher: OptionLauncher = {
+        let launcher = OptionLauncher()
+        launcher.homeController = self
+        return launcher
+    }()
+
+
+    
+    func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        
+        switch item.tag {
+            
+        case 0:
+            print("do something")
+            break
+            
+        case 1:
+            print("show options")
+            // show options
+            optionLauncher.showOptions()
+            break
+            
+        default:
+            break
+        }
+    }
+    
+    func showControllerForOption(option: Option) {
+        let dummyOptionViewController = UIViewController()
+        dummyOptionViewController.view.backgroundColor = UIColor.white
+        dummyOptionViewController.navigationItem.title = option.name.rawValue
+        navigationController?.navigationBar.tintColor = UIColor.white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        navigationController?.pushViewController(dummyOptionViewController, animated: true)
+    }
+    
 }
