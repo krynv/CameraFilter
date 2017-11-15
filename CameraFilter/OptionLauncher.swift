@@ -23,7 +23,10 @@ enum OptionName: String {
     case Cancel = "Cancel"
     case ColourPicker = "Colour Picker"
     case SetColourBlindnessMode = "Set Colour Blindness Mode"
+    case FilterColours = "Filter Colours"
+    case Settings = "Settings"
     case Dummy = "dummy"
+    
 }
 
 class OptionLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -43,12 +46,16 @@ class OptionLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDele
     //construct option array
     let options: [Option] = {
         let colourPicker = Option(name: .ColourPicker, imageName: "colour-picker")
-        let setColourBlindnessMode = Option(name: .SetColourBlindnessMode, imageName: "settings-cog")
-        let dummy = Option(name: .Dummy, imageName: "settings-cog")
+        let setColourBlindnessMode = Option(name: .SetColourBlindnessMode, imageName: "colour-blind-mode")
+        let filterColours = Option(name: .FilterColours, imageName: "filter-colours")
+         let settings = Option(name: .Settings, imageName: "settings")
         let cancelOption = Option(name: .Cancel, imageName: "cancel")
+       
+        
         return [colourPicker,
                 setColourBlindnessMode,
-                dummy,
+                filterColours,
+                settings,
                 cancelOption]
     }()
     
