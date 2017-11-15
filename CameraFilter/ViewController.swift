@@ -26,6 +26,39 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     @IBOutlet weak var tabBar: UITabBar!
     @IBOutlet weak var moreButton: UITabBarItem!
     
+    @IBAction func toggleFlashlight(_ sender: UISwitch) {
+        
+        switch sender.isOn {
+            
+        case true:
+            print("turn on flashlight")
+            
+            do {
+                try currentCamera?.lockForConfiguration()
+                currentCamera?.torchMode = .on
+                currentCamera?.unlockForConfiguration()
+            }
+            catch {
+                print("Cannot enable flashlight")
+            }
+            
+            break
+            
+        default:
+            print("turn off flashlight")
+            do {
+                try currentCamera?.lockForConfiguration()
+                currentCamera?.torchMode = .off
+                currentCamera?.unlockForConfiguration()
+            }
+            catch {
+                print("Cannot enable flashlight")
+            }
+            
+            break
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBar.delegate = self
@@ -151,6 +184,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             
         case 0:
             print("do something")
+            
             break
             
         case 1:
