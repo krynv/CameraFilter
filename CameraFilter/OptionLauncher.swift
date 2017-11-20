@@ -48,10 +48,9 @@ class OptionLauncher: NSObject, UICollectionViewDataSource, UICollectionViewDele
         let colourPicker = Option(name: .ColourPicker, imageName: "colour-picker")
         let setColourBlindnessMode = Option(name: .SetColourBlindnessMode, imageName: "colour-blind-mode")
         let filterColours = Option(name: .FilterColours, imageName: "filter-colours")
-         let settings = Option(name: .Settings, imageName: "settings")
+        let settings = Option(name: .Settings, imageName: "settings")
         let cancelOption = Option(name: .Cancel, imageName: "cancel")
        
-        
         return [colourPicker,
                 setColourBlindnessMode,
                 filterColours,

@@ -155,14 +155,17 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         let videoOutput = AVCaptureVideoDataOutput()
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.main)
         
-        let comicEffect = CIFilter(name: "CIComicEffect")
+        //let comicEffect = CIFilter(name: "CIComicEffect")
         
         let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)
         
-        comicEffect!.setValue(cameraImage, forKey: kCIInputImageKey)
+        let filter = CustomFilter()
+        filter.setValue(cameraImage, forKey: kCIInputImageKey)
         
-        let cgImage = self.context.createCGImage(comicEffect!.outputImage!, from: cameraImage.extent)!
+        //comicEffect!.setValue(cameraImage, forKey: kCIInputImageKey)
+        
+        let cgImage = self.context.createCGImage(filter.outputImage!, from: cameraImage.extent)!
         
         DispatchQueue.main.async {
             let filteredImage = UIImage(cgImage: cgImage)

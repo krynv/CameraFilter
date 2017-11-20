@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5458D9BF1FC3348C00810794 /* CustomFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5458D9BE1FC3348C00810794 /* CustomFilter.swift */; };
 		547501101FA63F7600D16ED1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5475010F1FA63F7600D16ED1 /* AppDelegate.swift */; };
 		547501121FA63F7600D16ED1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547501111FA63F7600D16ED1 /* ViewController.swift */; };
 		547501151FA63F7600D16ED1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 547501131FA63F7600D16ED1 /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5458D9BE1FC3348C00810794 /* CustomFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFilter.swift; sourceTree = "<group>"; };
 		5475010C1FA63F7600D16ED1 /* CameraFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5475010F1FA63F7600D16ED1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		547501111FA63F7600D16ED1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				5475011B1FA63F7600D16ED1 /* Info.plist */,
 				54DFF0511FBB776E00FE7E9D /* OptionCell.swift */,
 				54BD624C1FBB7B13003B0EAE /* Constraints.swift */,
+				5458D9BE1FC3348C00810794 /* CustomFilter.swift */,
 			);
 			path = CameraFilter;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 				547501101FA63F7600D16ED1 /* AppDelegate.swift in Sources */,
 				54BD624D1FBB7B13003B0EAE /* Constraints.swift in Sources */,
 				54AC04C91FBB5F39000C0B35 /* OptionLauncher.swift in Sources */,
+				5458D9BF1FC3348C00810794 /* CustomFilter.swift in Sources */,
 				54DFF0521FBB776E00FE7E9D /* OptionCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
