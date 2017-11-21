@@ -160,16 +160,17 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)
         
-        let filter = CustomFilter()
-        filter.setValue(cameraImage, forKey: kCIInputImageKey)
+        //let filter = CustomFilter()
+        //filter.setValue(cameraImage, forKey: kCIInputImageKey)
         
         //comicEffect!.setValue(cameraImage, forKey: kCIInputImageKey)
         
-        let cgImage = self.context.createCGImage(filter.outputImage!, from: cameraImage.extent)!
+        //let cgImage = self.context.createCGImage(filter.outputImage!, from: cameraImage.extent)!
         
         DispatchQueue.main.async {
-            let filteredImage = UIImage(cgImage: cgImage)
-            self.filteredImage.image = filteredImage
+            //let filteredImage = UIImage(cgImage: cgImage)
+            
+            self.filteredImage.image = self.applyHue(cameraImage: cameraImage)
         }
     }
     
@@ -179,6 +180,25 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         return launcher
     }()
 
+    func applyHue(cameraImage: CIImage) -> UIImage {
+        // Create a place to render the filtered image
+        let context = CIContext(options: nil)
+        
+        // Create an image to filter
+        let inputImage = cameraImage
+        
+        // Create a random color to pass to a filter
+        let randomColor = [kCIInputAngleKey: 1.5]
+        
+        // Apply a filter to the image
+        let filteredImage = inputImage.applyingFilter("CIHueAdjust", parameters: randomColor)
+        
+        // Render the filtered image
+        let renderedImage = context.createCGImage(filteredImage, from: filteredImage.extent)
+        
+        // Return a UIImage
+        return UIImage(cgImage: renderedImage!)
+    }
 
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {

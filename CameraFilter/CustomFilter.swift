@@ -26,8 +26,8 @@ class CustomFilter: CIFilter {
         let kernelString =
             "kernel vec4 chromaKey( __sample s) { \n" +
                 "  vec4 newPixel = s.rgba;" +
-                "  newPixel[0] = 0.0;" +
-                "  newPixel[2] = newPixel[2] / 7.0;" +
+                "  newPixel[0] = 1.0;" +
+                "  newPixel[2] = newPixel[2] / 2.0;" +
                 "  return newPixel;\n" +
         "}"
         
