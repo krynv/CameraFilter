@@ -161,7 +161,26 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
         let typeOfColourBlindness = ColourBlindType(rawValue: "deuteranomaly")
         
+        /* Gets colour from a single pixel - currently 0,0 and converts it into the 'colour blind' version */
+        
+        let filteredImage = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
+        
+        let colour = filteredImage.getPixelColour(pos: CGPoint(x: 0, y: 0))
+        
+        var redval: CGFloat = 0
+        var greenval: CGFloat = 0
+        var blueval: CGFloat = 0
+        var alphaval: CGFloat = 0
+        
+        _ = colour.getRed(&redval, green: &greenval, blue: &blueval, alpha: &alphaval)
+        print("Colours are r: \(redval) g: \(greenval) b: \(blueval) a: \(alphaval)")
+        let filteredColour = CBColourBlindTypes.getModifiedColour(.deuteranomaly, red: Float(redval), green: Float(greenval), blue: Float(blueval))
+        print(filteredColour)
+        
+        /* #################################################################################### */
+        
         DispatchQueue.main.async {
+            // placeholder for now
             self.filteredImage.image = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
         }
     }
