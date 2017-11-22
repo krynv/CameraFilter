@@ -151,6 +151,14 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
     }
     
+    func convert(cmage:CIImage) -> UIImage
+    {
+        let context:CIContext = CIContext.init(options: nil)
+        let cgImage:CGImage = context.createCGImage(cmage, from: cmage.extent)!
+        let image:UIImage = UIImage.init(cgImage: cgImage)
+        return image
+    }
+    
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         connection.videoOrientation = orientation
         let videoOutput = AVCaptureVideoDataOutput()
@@ -163,9 +171,11 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
         /* Gets colour from a single pixel - currently 0,0 and converts it into the 'colour blind' version */
         
-        let filteredImage = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
+        //let filteredImage = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
         
-        let colour = filteredImage.getPixelColour(pos: CGPoint(x: 0, y: 0))
+        let captureImage = convert(cmage: cameraImage)
+        
+        let colour = captureImage.getPixelColour(pos: CGPoint(x: 0, y: 0))
         
         var redval: CGFloat = 0
         var greenval: CGFloat = 0
