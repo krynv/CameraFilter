@@ -13,6 +13,7 @@
 		547501151FA63F7600D16ED1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 547501131FA63F7600D16ED1 /* Main.storyboard */; };
 		547501171FA63F7600D16ED1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 547501161FA63F7600D16ED1 /* Assets.xcassets */; };
 		5475011A1FA63F7600D16ED1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 547501181FA63F7600D16ED1 /* LaunchScreen.storyboard */; };
+		54A0FFAC1FC58B6400AA5B43 /* ColourBlindHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A0FFAB1FC58B6400AA5B43 /* ColourBlindHelper.swift */; };
 		54AC04C91FBB5F39000C0B35 /* OptionLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54AC04C81FBB5F39000C0B35 /* OptionLauncher.swift */; };
 		54BD624D1FBB7B13003B0EAE /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BD624C1FBB7B13003B0EAE /* Extensions.swift */; };
 		54DFF0521FBB776E00FE7E9D /* OptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DFF0511FBB776E00FE7E9D /* OptionCell.swift */; };
@@ -27,6 +28,7 @@
 		547501161FA63F7600D16ED1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		547501191FA63F7600D16ED1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5475011B1FA63F7600D16ED1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		54A0FFAB1FC58B6400AA5B43 /* ColourBlindHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColourBlindHelper.swift; sourceTree = "<group>"; };
 		54AC04C81FBB5F39000C0B35 /* OptionLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionLauncher.swift; sourceTree = "<group>"; };
 		54BD624C1FBB7B13003B0EAE /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		54DFF0511FBB776E00FE7E9D /* OptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCell.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				54DFF0511FBB776E00FE7E9D /* OptionCell.swift */,
 				54BD624C1FBB7B13003B0EAE /* Extensions.swift */,
 				5458D9BE1FC3348C00810794 /* CustomFilter.swift */,
+				54A0FFAB1FC58B6400AA5B43 /* ColourBlindHelper.swift */,
 			);
 			path = CameraFilter;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54A0FFAC1FC58B6400AA5B43 /* ColourBlindHelper.swift in Sources */,
 				547501121FA63F7600D16ED1 /* ViewController.swift in Sources */,
 				547501101FA63F7600D16ED1 /* AppDelegate.swift in Sources */,
 				54BD624D1FBB7B13003B0EAE /* Extensions.swift in Sources */,

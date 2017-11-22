@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation
+import CoreGraphics
 
 class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate, UITabBarDelegate {
     
@@ -158,8 +159,10 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)
         
+        let typeOfColourBlindness = ColourBlindType(rawValue: "deuteranomaly")
+        
         DispatchQueue.main.async {
-            self.filteredImage.image = self.applyHue(cameraImage: cameraImage)
+            self.filteredImage.image = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
         }
     }
     
@@ -169,23 +172,31 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         return launcher
     }()
 
-    func applyHue(cameraImage: CIImage) -> UIImage {
+    func applyFilter(cameraImage: CIImage, colourBlindness: ColourBlindType) -> UIImage {
+
+        //do stuff with pixels to render new image
+        
+        
+        /*      Placeholder code for shifting the hue      */
+        
         // Create a place to render the filtered image
         let context = CIContext(options: nil)
-        
+
+        // Create filter angle
+        let filterAngle = 207 * Double.pi / 180
+
         // Create a random color to pass to a filter
-        let randomColor = [kCIInputAngleKey: 1.5]
-        
+        let randomColor = [kCIInputAngleKey: filterAngle]
+
         // Apply a filter to the image
         let filteredImage = cameraImage.applyingFilter("CIHueAdjust", parameters: randomColor)
-        
+
         // Render the filtered image
         let renderedImage = context.createCGImage(filteredImage, from: filteredImage.extent)
-        
+
         // Return a UIImage
         return UIImage(cgImage: renderedImage!)
     }
-
     
     func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         

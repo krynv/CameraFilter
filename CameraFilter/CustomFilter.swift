@@ -7,6 +7,7 @@
 //
 
 import CoreImage
+import UIKit
 
 class CustomFilter: CIFilter {
     @objc dynamic var inputImage : CIImage?
