@@ -37,5 +37,4 @@ extension UIImage {
         
         return UIColor(red: r, green: g, blue: b, alpha: a)
     }
-    
 }

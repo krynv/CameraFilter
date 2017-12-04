@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		542A81321FD5A2A20097220E /* RGBAImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542A81311FD5A2A20097220E /* RGBAImage.swift */; };
+		542A81341FD5A7A50097220E /* ImageProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542A81331FD5A7A50097220E /* ImageProcess.swift */; };
+		542A81361FD5A7C60097220E /* ByteImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 542A81351FD5A7C60097220E /* ByteImage.swift */; };
 		5458D9BF1FC3348C00810794 /* CustomFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5458D9BE1FC3348C00810794 /* CustomFilter.swift */; };
 		547501101FA63F7600D16ED1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5475010F1FA63F7600D16ED1 /* AppDelegate.swift */; };
 		547501121FA63F7600D16ED1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 547501111FA63F7600D16ED1 /* ViewController.swift */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		542A81311FD5A2A20097220E /* RGBAImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RGBAImage.swift; sourceTree = "<group>"; };
+		542A81331FD5A7A50097220E /* ImageProcess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcess.swift; sourceTree = "<group>"; };
+		542A81351FD5A7C60097220E /* ByteImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByteImage.swift; sourceTree = "<group>"; };
 		5458D9BE1FC3348C00810794 /* CustomFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFilter.swift; sourceTree = "<group>"; };
 		5475010C1FA63F7600D16ED1 /* CameraFilter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CameraFilter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5475010F1FA63F7600D16ED1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +51,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		545CACD91FD5B5970005854E /* ImageProcessingHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				54BD624C1FBB7B13003B0EAE /* Extensions.swift */,
+				5458D9BE1FC3348C00810794 /* CustomFilter.swift */,
+				542A81331FD5A7A50097220E /* ImageProcess.swift */,
+				542A81351FD5A7C60097220E /* ByteImage.swift */,
+				54A0FFAB1FC58B6400AA5B43 /* ColourBlindHelper.swift */,
+				542A81311FD5A2A20097220E /* RGBAImage.swift */,
+			);
+			path = ImageProcessingHelpers;
+			sourceTree = "<group>";
+		};
 		547501031FA63F7600D16ED1 = {
 			isa = PBXGroup;
 			children = (
@@ -72,9 +91,7 @@
 				547501181FA63F7600D16ED1 /* LaunchScreen.storyboard */,
 				5475011B1FA63F7600D16ED1 /* Info.plist */,
 				54DFF0511FBB776E00FE7E9D /* OptionCell.swift */,
-				54BD624C1FBB7B13003B0EAE /* Extensions.swift */,
-				5458D9BE1FC3348C00810794 /* CustomFilter.swift */,
-				54A0FFAB1FC58B6400AA5B43 /* ColourBlindHelper.swift */,
+				545CACD91FD5B5970005854E /* ImageProcessingHelpers */,
 			);
 			path = CameraFilter;
 			sourceTree = "<group>";
@@ -151,9 +168,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				542A81341FD5A7A50097220E /* ImageProcess.swift in Sources */,
 				54A0FFAC1FC58B6400AA5B43 /* ColourBlindHelper.swift in Sources */,
+				542A81321FD5A2A20097220E /* RGBAImage.swift in Sources */,
 				547501121FA63F7600D16ED1 /* ViewController.swift in Sources */,
 				547501101FA63F7600D16ED1 /* AppDelegate.swift in Sources */,
+				542A81361FD5A7C60097220E /* ByteImage.swift in Sources */,
 				54BD624D1FBB7B13003B0EAE /* Extensions.swift in Sources */,
 				54AC04C91FBB5F39000C0B35 /* OptionLauncher.swift in Sources */,
 				5458D9BF1FC3348C00810794 /* CustomFilter.swift in Sources */,
@@ -298,6 +318,7 @@
 				DEVELOPMENT_TEAM = GUUT9QSKM3;
 				INFOPLIST_FILE = CameraFilter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vitaliy.CameraFilter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -313,6 +334,8 @@
 				DEVELOPMENT_TEAM = GUUT9QSKM3;
 				INFOPLIST_FILE = CameraFilter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vitaliy.CameraFilter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

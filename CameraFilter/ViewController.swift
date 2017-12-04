@@ -74,16 +74,13 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) != .authorized
-        {
-            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler:
-                { (authorized) in
-                    DispatchQueue.main.async
-                        {
-                            if authorized
-                            {
-                                self.setupInputOutput()
-                            }
+        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) != .authorized {
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: {
+                (authorized) in
+                    DispatchQueue.main.async {
+                        if authorized {
+                            self.setupInputOutput()
+                        }
                     }
             })
         }
@@ -109,6 +106,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         do {
             setupCorrectFramerate(currentCamera: currentCamera!)
             let captureDeviceInput = try AVCaptureDeviceInput(device: currentCamera!)
+            //depending what format you choose, the speed at which the pixels get filtered increases
             captureSession.sessionPreset = AVCaptureSession.Preset.hd1280x720
             if captureSession.canAddInput(captureDeviceInput) {
                 captureSession.addInput(captureDeviceInput)
@@ -151,8 +149,7 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         }
     }
     
-    func convert(cmage:CIImage) -> UIImage
-    {
+    func convert(cmage:CIImage) -> UIImage {
         let context:CIContext = CIContext.init(options: nil)
         let cgImage:CGImage = context.createCGImage(cmage, from: cmage.extent)!
         let image:UIImage = UIImage.init(cgImage: cgImage)
@@ -167,31 +164,31 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
         let cameraImage = CIImage(cvImageBuffer: pixelBuffer!)
         
-        let typeOfColourBlindness = ColourBlindType(rawValue: "deuteranomaly")
+        //let typeOfColourBlindness = ColourBlindType(rawValue: "deuteranomaly")
         
+        /* ############################################################################################## */
         /* Gets colour from a single pixel - currently 0,0 and converts it into the 'colour blind' version */
-        
-        //let filteredImage = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
-        
-        let captureImage = convert(cmage: cameraImage)
-        
-        let colour = captureImage.getPixelColour(pos: CGPoint(x: 0, y: 0))
-        
-        var redval: CGFloat = 0
-        var greenval: CGFloat = 0
-        var blueval: CGFloat = 0
-        var alphaval: CGFloat = 0
-        
-        _ = colour.getRed(&redval, green: &greenval, blue: &blueval, alpha: &alphaval)
-        print("Colours are r: \(redval) g: \(greenval) b: \(blueval) a: \(alphaval)")
-        let filteredColour = CBColourBlindTypes.getModifiedColour(.deuteranomaly, red: Float(redval), green: Float(greenval), blue: Float(blueval))
-        print(filteredColour)
+
+//        let captureImage = convert(cmage: givenImage)
+//        let colour = captureImage.getPixelColour(pos: CGPoint(x: 0, y: 0))
+//
+//        var redval: CGFloat = 0
+//        var greenval: CGFloat = 0
+//        var blueval: CGFloat = 0
+//        var alphaval: CGFloat = 0
+//
+//        _ = colour.getRed(&redval, green: &greenval, blue: &blueval, alpha: &alphaval)
+//
+//        let filteredColour = CBColourBlindTypes.getModifiedColour(.deuteranomaly, red: Float(redval), green: Float(greenval), blue: Float(blueval))
         
         /* #################################################################################### */
         
+        //let filteredImage = doShitWithGGBAImage(givenImage: cameraImage)
+        
         DispatchQueue.main.async {
             // placeholder for now
-            self.filteredImage.image = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
+            //self.filteredImage.image = filteredImage
+            self.filteredImage.image = self.doShitWithGGBAImage(givenImage: cameraImage)
         }
     }
     
@@ -200,7 +197,19 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         launcher.homeController = self
         return launcher
     }()
-
+    
+    func doShitWithGGBAImage(givenImage: CIImage) -> UIImage {
+        
+        let captureImage = convert(cmage: givenImage)
+        
+        let rgbaImage = RGBAImage(image: captureImage)
+        
+        let returnedImage = ImageProcess.setRGB(rgbaImage!, colourBlindness: "protanopia").toUIImage()
+        
+        return returnedImage!
+    }
+    
+    
     func applyFilter(cameraImage: CIImage, colourBlindness: ColourBlindType) -> UIImage {
 
         //do stuff with pixels to render new image
