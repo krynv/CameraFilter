@@ -191,7 +191,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         
         DispatchQueue.main.async {
             // placeholder for now
-            self.filteredImage.image = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
+//            self.filteredImage.image = self.applyFilter(cameraImage: cameraImage, colourBlindness: typeOfColourBlindness!)
+            self.filteredImage.image = UIImage(ciImage: cameraImage)
         }
     }
     
