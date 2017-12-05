@@ -24,6 +24,8 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     @IBOutlet weak var filteredImage: UIImageView!
     
+    let recognizer = UITapGestureRecognizer()
+    
     @IBOutlet weak var tabBar: UITabBar!
     @IBOutlet weak var moreButton: UITabBarItem!
     
@@ -87,6 +89,16 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
                     }
             })
         }
+        
+        filteredImage.isUserInteractionEnabled = true
+        
+        recognizer.addTarget(self, action: #selector(ViewController.screenHasbeenTapped))
+        
+        filteredImage.addGestureRecognizer(recognizer)
+    }
+    
+    @objc func screenHasbeenTapped() {
+        print("screen tapped")
     }
     
     func setupDevice() {
@@ -183,9 +195,9 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
         var alphaval: CGFloat = 0
         
         _ = colour.getRed(&redval, green: &greenval, blue: &blueval, alpha: &alphaval)
-        print("Colours are r: \(redval) g: \(greenval) b: \(blueval) a: \(alphaval)")
+//        print("Colours are r: \(redval) g: \(greenval) b: \(blueval) a: \(alphaval)")
         let filteredColour = CBColourBlindTypes.getModifiedColour(.deuteranomaly, red: Float(redval), green: Float(greenval), blue: Float(blueval))
-        print(filteredColour)
+//        print(filteredColour)
         
         /* #################################################################################### */
         
