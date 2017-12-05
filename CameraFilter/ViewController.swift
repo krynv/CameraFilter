@@ -99,7 +99,64 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     
     @objc func screenHasbeenTapped() {
         print("screen tapped")
+        if recognizer.state == UIGestureRecognizerState.recognized {
+            print(recognizer.location(in: filteredImage))
+            
+            var location = recognizer.location(in: filteredImage)
+            var colour:UIColor = getPixelColorAtPoint(point: location, sourceView: filteredImage)
+            print(colour)
+            
+            var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+            colour.getRed(&r, green: &g, blue: &b, alpha: &a)
+            var red: Int = Int(r * 255.0)
+            var green: Int = Int(g * 255.0)
+            var blue: Int = Int(b * 255.0)
+            let myString = "R: \(red) G: \(green) B: \(blue)"
+            
+            print(myString)
+            
+            self.showToast(message: myString as String)
+        }
+        
+        
     }
+    
+    func getPixelColorAtPoint(point: CGPoint, sourceView: UIView) -> UIColor {
+        let pixel = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: 4)
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
+        let context = CGContext(data: pixel, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: colorSpace, bitmapInfo: bitmapInfo.rawValue)
+        
+        context!.translateBy(x: -point.x, y: -point.y)
+        
+        sourceView.layer.render(in: context!)
+        let color: UIColor = UIColor(red: CGFloat(pixel[0])/255.0,
+                                     green: CGFloat(pixel[1])/255.0,
+                                     blue: CGFloat(pixel[2])/255.0,
+                                     alpha: CGFloat(pixel[3])/255.0)
+        pixel.deallocate(capacity: 4)
+        return color
+    }
+    
+    func showToast(message : String) {
+        
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 200, y: self.view.frame.size.height-100, width: 400, height: 35))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.textAlignment = .center;
+        toastLabel.font = UIFont(name: "Montserrat-Light", size: 12.0)
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10;
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        UIView.animate(withDuration: 4.0, delay: 0.1, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: {(isCompleted) in
+            toastLabel.removeFromSuperview()
+        })
+    }
+
     
     func setupDevice() {
         let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: AVMediaType.video, position: AVCaptureDevice.Position.unspecified)
