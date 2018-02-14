@@ -17,6 +17,25 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
     var frontCamera: AVCaptureDevice?
     var currentCamera: AVCaptureDevice?
     
+    struct colour: Codable {
+        private enum CodingKeys : String, CodingKey { case name = "name" }
+        var name : name
+    }
+    
+    struct name: Codable {
+    
+        private enum CodingKeys: String, CodingKey {
+            case value = "value"
+            case closest_name_hex = "closest_named_hex"
+            case exact_match_name = "exact_match_name"
+            case distance = "distance"
+        }
+        var value: String
+        var closest_name_hex: String
+        var exact_match_name: Bool
+        var distance: Int
+    }
+
     var photoOutput: AVCapturePhotoOutput?
     var orientation: AVCaptureVideoOrientation = .portrait
     
@@ -111,14 +130,58 @@ class ViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDele
             var red: Int = Int(r * 255.0)
             var green: Int = Int(g * 255.0)
             var blue: Int = Int(b * 255.0)
-            let myString = "R: \(red) G: \(green) B: \(blue)"
+            var myString = "R: \(red) G: \(green) B: \(blue)"
             
             print(myString)
             
+            myString = getColourNameFromRGB(R: red, G: green, B: blue)
+            
+            print("returned string = \(myString)")
             self.showToast(message: myString as String)
         }
         
         
+    }
+    
+    func getColourNameFromRGB(R: Int , G: Int, B: Int) -> String{
+        let scriptUrl = "http://www.thecolorapi.com/"
+        let urlWithParams = scriptUrl + "id?rgb=\(R),\(G),\(B)"
+        var colourName: String
+        colourName = ""
+        
+        print("urlString = \(urlWithParams)")
+        
+        guard let url = URL(string: urlWithParams) else { return "Error"}
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            
+            
+            guard let data = data else { return }
+            // Implement JSON Decoding and parsing
+            do {
+                // Decode retireved data with JSONDecoder
+                let colourData = try JSONDecoder().decode(colour.self, from: data)
+                
+                print(colourData)
+                colourName = colourData.name.value
+                print("colour name = \(colourName)")
+                DispatchQueue.main.async {
+                    self.showToast(message: colourName as String)
+                }
+//                self.showToast(message: colourName as String)
+//                return colourName
+                
+            } catch let jsonError {
+                print(jsonError)
+            }
+        }.resume()
+    
+//        self.showToast(message: colourName as String)
+        return colourName
+
     }
     
     func getPixelColorAtPoint(point: CGPoint, sourceView: UIView) -> UIColor {
